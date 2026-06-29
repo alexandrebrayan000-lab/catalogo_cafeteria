@@ -49,11 +49,17 @@ nav ul li a{
     margin: 0 20px;
     font-weight: bold;
     justify-content: space-evenly;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
 }
-nav a:hover{
-    color: #000000;
-    justify-content: space-evenly;
 
+/* Efeito hover no nav */
+nav a:hover{
+    background-color: #f2f2f2;
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 main{
     background-image: url(https://i.pinimg.com/1200x/0a/5d/80/0a5d80662a5042ed194cb68a7d72ce6f.jpg);
@@ -105,6 +111,18 @@ figure figcaption{
     font-size: 16px;
     font-weight: bold;
 }
+
+/* Efeito hover nas figuras */
+figure:hover {
+    background-color: #d4a574;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+figure:hover img {
+    filter: brightness(1.1);
+}
+
 footer{
     background-color: #f2f2f2;
     padding: 20px;
