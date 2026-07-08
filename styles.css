@@ -26,6 +26,17 @@ header img{
     height: auto;
     border-radius: 8px;
 }
+button{
+    background-color: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+button img{
+    width: 30px;
+    height: 30px;
+}
 nav{
     height: 100%;
     background-color: white;
@@ -53,8 +64,6 @@ nav ul li a{
     border-radius: 8px;
     display: inline-block;
 }
-
-/* Efeito hover no nav */
 nav a:hover{
     background-color: #f2f2f2;
     color: #000000;
