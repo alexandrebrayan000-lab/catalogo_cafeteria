@@ -1,0 +1,290 @@
+/* RESET E CONFIGURAÇÕES GERAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* HEADER */
+header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://png.pngtree.com/background/20230407/original/pngtree-cityscape-with-the-eiffel-tower-in-paris-photo-picture-image_2330497.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 150px;
+    width: 100%;  
+    color: #fff;
+}
+
+header img {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+}
+
+header h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+header h1 b {
+    color: #e6c594; /* Tom dourado parisiense */
+}
+
+/* BOTÃO DE VOLTAR NO HEADER (Ajustado especificamente para não afetar outros botões) */
+header button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+header button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+header button img {
+    width: 25px;
+    height: 25px;
+}
+
+/* BARRA DE NAVEGAÇÃO */
+nav {
+    background-color: #1a1512; /* Tom de café bem escuro */
+    padding: 8px 0;
+    border-bottom: 2px solid #c8a278; /* Linha refinada de café com leite */
+}
+
+nav p {
+    color: #f2ebd9;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
+}
+
+/* MAIN - CONTEÚDO PRINCIPAL */
+main {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://i.pinimg.com/1200x/0a/5d/80/0a5d80662a5042ed194cb68a7d72ce6f.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px 80px 20px;
+    min-height: calc(100vh - 190px);
+}
+
+/* LISTA DE PRODUTOS */
+#lista-carrinho {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    width: 100%;
+    max-width: 650px;
+}
+
+/* CARD DO PRODUTO */
+.produtos-carrinho {
+    background-color: rgba(20, 15, 12, 0.92);
+    border: 1px solid #4a382a;
+    border-radius: 15px; 
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0;
+    transition: transform 0.3s ease, border-color 0.3s ease; 
+}
+
+.produtos-carrinho:hover {
+    transform: translateY(-4px);
+    border-color: #c8a278;
+}
+
+.produtos-carrinho img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3d2d22;
+}
+
+.produtos-carrinho figcaption {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #e3dad1; 
+    flex: 1; 
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.produtos-carrinho b {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.4em;
+    color: #f2ebd9;
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #3d2d22;
+    padding-bottom: 4px;
+}
+
+/* CONTROLES DE QUANTIDADE (+ / -) */
+.controles-qtd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.controles-qtd button {
+    background-color: #38281f;
+    color: #fff;
+    border: 1px solid #634737;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.controles-qtd button:hover {
+    background-color: #c8a278;
+    color: #000;
+}
+
+/* BOTÃO DE REMOVER */
+.btn-remover {
+    background-color: #8c2a2a;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;        /* Impede o texto de quebrar a linha */
+    width: auto;                 /* Permite ao botão ajustar a largura ao texto */
+    height: auto;                /* Desfaz a altura fixa circular */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+    transition: background 0.2s, transform 0.1s ease;
+}
+
+.btn-remover:hover {
+    background-color: #b53838;
+}
+
+.btn-remover:active {
+    transform: scale(0.97);
+}
+
+/* PAINEL DE TOTAL DO CARRINHO */
+#total-carrinho {
+    background-color: rgba(20, 15, 12, 0.95);
+    border: 1px solid #c8a278;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    width: 100%;
+    max-width: 650px;
+    font-size: 1.2em;
+    color: #f2ebd9;
+    text-align: right;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* BOTÃO DE FINALIZAR PEDIDO */
+.btn-finalizar {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    height: auto;
+    transition: background 0.3s;
+}
+
+.btn-finalizar:hover {
+    background-color: #388e3c;
+}
+
+/* NOVO: BOTÃO SECUNDÁRIO DE VOLTAR AO INÍCIO */
+.btn-voltar-inicio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #e6c594;
+    border: 1px solid #c8a278;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-top: 12px;
+    width: 100%;
+    max-width: 650px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-voltar-inicio:hover {
+    background-color: #c8a278;
+    color: #1a1512;
+}
+
+/* MENSAGEM DE CARRINHO VAZIO */
+.carrinho-vazio {
+    color: #f2ebd9;
+    font-size: 1.2rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* FOOTER */
+footer {
+    background-color: #1a1512;
+    color: #b3a69a;
+    text-align: center;
+    padding: 12px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #3d2d22;
+    font-size: 0.9rem;
+}

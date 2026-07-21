@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Le Parisien</title>
+    <!-- Apontado para styles.css -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="img/logo.png">
 </head>
 <body>
     <header>
         <img src="img/logo.png" alt="logo">
-        <h1>Bv. <b> Saint-Germain</b></h1>
-        <button><a href="carrinho.html"><img src="img/carrinho.png" alt=""></a></button>
+        <h1>Bv. <b>Saint-Germain</b></h1>
+        <button type="button">
+            <a href="carrinho.html" title="Ver Carrinho">
+                <img src="img/carrinho.png" alt="Carrinho">
+            </a>
+        </button>
     </header>
 
     <nav>
@@ -24,73 +29,131 @@
     </nav>
 
     <main>
+        <!-- CROISSANTS & CIA -->
         <h2>Croissants & Cia</h2>
-
         <section id="Paes">
-            <figure class="produtos">
+            <figure class="produtos" data-nome="Croissant" data-preco="7.00" data-img="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg">
+                <img src="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg" alt="Croissant">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg" alt="Croissant 1"><b>Croissant</b><br>R$ 7,00
-                    </a>
+                    <b>Croissant</b>
+                    <p class="preco-unidade">R$ 7,00</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-1">Qtd:</label>
+                        <input type="number" id="qtd-1" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
-            <figure class="produtos">
+            
+            <figure class="produtos" data-nome="Croissant doce" data-preco="8.00" data-img="https://i.pinimg.com/1200x/34/a0/59/34a059a12664dcae118986a011cd897c.jpg">
+                <img src="https://i.pinimg.com/1200x/34/a0/59/34a059a12664dcae118986a011cd897c.jpg" alt="Croissant doce">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/1200x/34/a0/59/34a059a12664dcae118986a011cd897c.jpg" alt="Croissant 2"><b>Croissant doce</b><br>R$ 8,00
-                    </a>
+                    <b>Croissant doce</b>
+                    <p class="preco-unidade">R$ 8,00</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-2">Qtd:</label>
+                        <input type="number" id="qtd-2" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
         </section>
 
+        <!-- LA PÂTISSERIE -->
         <h2>La Pâtisserie</h2>
         <section id="doces">
-            <figure class="produtos">
+            <figure class="produtos" data-nome="Entremet Coeur Rouge" data-preco="7.99" data-img="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg">
+                <img src="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg" alt="Entremet Coeur Rouge">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg" alt="Doce 1"><b>Entremet Coeur Rouge</b><br>R$ 7,99
-                    </a>
+                    <b>Entremet Coeur Rouge</b>
+                    <p class="preco-unidade">R$ 7,99</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-3">Qtd:</label>
+                        <input type="number" id="qtd-3" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
-            <figure class="produtos">
-                <figcaption>            
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/736x/e4/e9/d9/e4e9d9bdba57a6de27e4133f9e655118.jpg" alt="Doce 2"><b>Tartelette aux Fraises</b><br>R$ 12,99
-                    </a>    
+
+            <figure class="produtos" data-nome="Tartelette aux Fraises" data-preco="12.99" data-img="https://i.pinimg.com/736x/e4/e9/d9/e4e9d9bdba57a6de27e4133f9e655118.jpg">
+                <img src="https://i.pinimg.com/736x/e4/e9/d9/e4e9d9bdba57a6de27e4133f9e655118.jpg" alt="Tartelette aux Fraises">
+                <figcaption>
+                    <b>Tartelette aux Fraises</b>
+                    <p class="preco-unidade">R$ 12,99</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-4">Qtd:</label>
+                        <input type="number" id="qtd-4" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
         </section>
 
+        <!-- LES QUICHES -->
         <h2>Les Quiches</h2>
         <section id="salgado">
-            <figure class="produtos">
+            <figure class="produtos" data-nome="Quiche Lorraine" data-preco="8.99" data-img="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg">
+                <img src="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg" alt="Quiche Lorraine">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg" alt="Salgado 1"><b>Quiche Lorraine</b><br>R$ 8,99
-                    </a>
+                    <b>Quiche Lorraine</b>
+                    <p class="preco-unidade">R$ 8,99</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-5">Qtd:</label>
+                        <input type="number" id="qtd-5" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
-            <figure class="produtos">
+
+            <figure class="produtos" data-nome="Quiche aux Fromages" data-preco="14.50" data-img="https://i.pinimg.com/736x/67/16/9c/67169c7ed151e1d7b7cab9acdb7667f1.jpg">
+                <img src="https://i.pinimg.com/736x/67/16/9c/67169c7ed151e1d7b7cab9acdb7667f1.jpg" alt="Quiche aux Fromages">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/736x/67/16/9c/67169c7ed151e1d7b7cab9acdb7667f1.jpg" alt="Salgado 2"><b>Quiche aux Fromages</b><br>R$ 14,50
-                    </a>    
+                    <b>Quiche aux Fromages</b>
+                    <p class="preco-unidade">R$ 14,50</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-6">Qtd:</label>
+                        <input type="number" id="qtd-6" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
         </section>
 
+        <!-- LES CAFÉS -->
         <h2>Les Cafés</h2>
         <section id="cafe">
-            <figure class="produtos">
+            <figure class="produtos" data-nome="Café Origine" data-preco="11.98" data-img="img/coffee1.jfif">
+                <img src="img/coffee1.jfif" alt="Café Origine">
                 <figcaption>
-                    <a href="carrinho.html"><img src="img/coffee1.jfif" alt="Café 1"><b>Café Origine</b><br>R$ 11,98
-                    </a>    
+                    <b>Café Origine</b>
+                    <p class="preco-unidade">R$ 11,98</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-7">Qtd:</label>
+                        <input type="number" id="qtd-7" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
-            <figure class="produtos">
+
+            <figure class="produtos" data-nome="Latte Macchiato" data-preco="13.99" data-img="https://i.pinimg.com/736x/c9/8d/04/c98d046bf1085bc59f77893bf9779244.jpg">
+                <img src="https://i.pinimg.com/736x/c9/8d/04/c98d046bf1085bc59f77893bf9779244.jpg" alt="Latte Macchiato">
                 <figcaption>
-                    <a href="carrinho.html"><img src="https://i.pinimg.com/736x/c9/8d/04/c98d046bf1085bc59f77893bf9779244.jpg" alt="Café 2"><b>Latte Macchiato</b><br>R$ 13,99
-                    </a>    
+                    <b>Latte Macchiato</b>
+                    <p class="preco-unidade">R$ 13,99</p>
+                    <div class="controle-qtd">
+                        <label for="qtd-8">Qtd:</label>
+                        <input type="number" id="qtd-8" class="qtd-produto" value="1" min="1" max="10">
+                    </div>
+                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
                 </figcaption>
             </figure>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 1895 Coffee Le Parisien. All rights reserved.</p>
     </footer>
+
+    <script src="script-index.js"></script>
 </body>
 </html>

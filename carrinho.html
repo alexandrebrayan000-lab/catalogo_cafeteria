@@ -4,21 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coffee Le Parisien</title>
-    <link rel="shortcut icon" href="favicon.ico" type="img/logo.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="carrinho.css">
+    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
 </head>
 <body>
     <header>
         <img src="img/logo.png" alt="logo">
         <h1>Bv. <b> Saint-Germain</b></h1>
-        <button><a href="carrinho.html"><img src="img/carrinho.png" alt=""></a></button>
+        <button><a href="index.html"><img src="img/inicio.png" alt=""></a></button>
     </header>
     <nav>
-        <h3>O melhor </h3>
+        <p>Seu pedido</p>
     </nav>
     <main> 
-        <figure></figure>
-    </main>
+        <figure>
+            <div id="lista-carrinho"></div>
+    
+            <div id="total-carrinho" style="margin-top: 20px; font-weight: bold;">
+            </div>
+
+            <a href="index.html" class="btn-voltar-inicio">
+        ⬅ Voltar ao Cardápio
+            </a>
+        </figure>    
+</main><br>
+
+<script src="script-carrinho.js"></script>
     <footer>
         <p>&copy; 1895 Coffee Le Parisien. All rights reserved.</p>
     </footer>
