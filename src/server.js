@@ -1,0 +1,297 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import bcrypt from 'bcryptjs';
+import prisma from './lib/prisma.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.join(__dirname, '..');
+
+// Carrega as variáveis de ambiente a partir da raiz do projeto
+dotenv.config({ path: path.join(rootDir, '.env') });
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// Servir arquivos estáticos do frontend (index.html, css/, js/, img/, pages/) a partir da raiz
+app.use(express.static(rootDir));
+
+// Rota de Health Check / Status
+app.get('/api/status', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({
+      status: 'online',
+      database: 'Conectado ao Neon PostgreSQL via Prisma',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'offline',
+      database: 'Erro de conexão com o banco de dados',
+      error: error.message
+    });
+  }
+});
+
+// ==========================================================
+// ROTAS DE AUTENTICAÇÃO (CADASTRO & LOGIN COM PRISMA)
+// ==========================================================
+
+// POST /api/auth/register - Cadastro de novo usuário
+app.post('/api/auth/register', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: 'Por favor, preencha todos os campos (nome, e-mail e senha).' });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'A senha deve conter no mínimo 6 caracteres.' });
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+
+  try {
+    // Verifica se o e-mail já está cadastrado
+    const existingUser = await prisma.user.findUnique({
+      where: { email: cleanEmail }
+    });
+
+    if (existingUser) {
+      return res.status(409).json({ error: 'Este e-mail já está cadastrado. Tente fazer login.' });
+    }
+
+    // Hash seguro da senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Cria o usuário no banco de dados Neon
+    const newUser = await prisma.user.create({
+      data: {
+        name: name.trim(),
+        email: cleanEmail,
+        password: hashedPassword,
+        role: 'CUSTOMER'
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true
+      }
+    });
+
+    res.status(201).json({
+      message: 'Cadastro realizado com sucesso!',
+      user: newUser
+    });
+  } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error);
+    res.status(500).json({ error: 'Erro interno ao realizar cadastro. Tente novamente mais tarde.' });
+  }
+});
+
+// POST /api/auth/login - Login de usuário
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Por favor, informe seu e-mail e senha.' });
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+
+  try {
+    // Busca usuário pelo e-mail
+    const user = await prisma.user.findUnique({
+      where: { email: cleanEmail }
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
+    }
+
+    // Compara a senha fornecida com o hash salvo no banco
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
+    }
+
+    res.json({
+      message: 'Login realizado com sucesso!',
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao autenticar usuário:', error);
+    res.status(500).json({ error: 'Erro interno ao realizar login. Tente novamente mais tarde.' });
+  }
+});
+
+// ==========================================================
+// ROTAS DE CARDÁPIO & PRODUTOS
+// ==========================================================
+
+// GET /api/categorias - Lista todas as categorias com seus produtos
+app.get('/api/categorias', async (req, res) => {
+  try {
+    const categorias = await prisma.category.findMany({
+      include: {
+        products: {
+          orderBy: { id: 'asc' }
+        }
+      },
+      orderBy: { id: 'asc' }
+    });
+    res.json(categorias);
+  } catch (error) {
+    console.error('Erro ao buscar categorias:', error);
+    res.status(500).json({ error: 'Erro ao carregar categorias do cardápio.' });
+  }
+});
+
+// GET /api/produtos - Lista produtos (com suporte a filtro por slug da categoria)
+app.get('/api/produtos', async (req, res) => {
+  const { categoria } = req.query;
+
+  try {
+    const where = categoria ? { category: { slug: String(categoria) } } : {};
+    const produtos = await prisma.product.findMany({
+      where,
+      include: {
+        category: true
+      },
+      orderBy: { id: 'asc' }
+    });
+    res.json(produtos);
+  } catch (error) {
+    console.error('Erro ao buscar produtos:', error);
+    res.status(500).json({ error: 'Erro ao carregar produtos.' });
+  }
+});
+
+// POST /api/produtos - Cadastrar novo produto
+app.post('/api/produtos', async (req, res) => {
+  const { name, price, description, imageUrl, categoryId } = req.body;
+
+  if (!name || price == null || !imageUrl || !categoryId) {
+    return res.status(400).json({ error: 'Campos obrigatórios: name, price, imageUrl, categoryId' });
+  }
+
+  try {
+    const novoProduto = await prisma.product.create({
+      data: {
+        name,
+        price: Number(price),
+        description,
+        imageUrl,
+        categoryId: Number(categoryId)
+      }
+    });
+    res.status(201).json(novoProduto);
+  } catch (error) {
+    console.error('Erro ao cadastrar produto:', error);
+    res.status(500).json({ error: 'Erro ao criar produto.' });
+  }
+});
+
+// ==========================================================
+// ROTAS DE PEDIDOS
+// ==========================================================
+
+// POST /api/pedidos - Registrar um pedido do carrinho
+app.post('/api/pedidos', async (req, res) => {
+  const { customerName, customerPhone, userId, items } = req.body;
+
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: 'O pedido deve conter pelo menos um item.' });
+  }
+
+  try {
+    let total = 0;
+    const orderItemsData = [];
+
+    for (const item of items) {
+      const product = await prisma.product.findUnique({
+        where: { id: Number(item.productId) }
+      });
+
+      if (!product) {
+        return res.status(404).json({ error: `Produto ID ${item.productId} não encontrado.` });
+      }
+
+      const itemTotal = Number(product.price) * (item.quantity || 1);
+      total += itemTotal;
+
+      orderItemsData.push({
+        productId: product.id,
+        quantity: item.quantity || 1,
+        unitPrice: product.price
+      });
+    }
+
+    const order = await prisma.order.create({
+      data: {
+        userId: userId ? Number(userId) : null,
+        customerName: customerName || 'Cliente Anônimo',
+        customerPhone: customerPhone || null,
+        totalAmount: total,
+        items: {
+          create: orderItemsData
+        }
+      },
+      include: {
+        items: {
+          include: {
+            product: true
+          }
+        }
+      }
+    });
+
+    res.status(201).json({ message: 'Pedido criado com sucesso!', order });
+  } catch (error) {
+    console.error('Erro ao criar pedido:', error);
+    res.status(500).json({ error: 'Erro ao registrar pedido.' });
+  }
+});
+
+// GET /api/pedidos - Listar histórico de pedidos
+app.get('/api/pedidos', async (req, res) => {
+  try {
+    const pedidos = await prisma.order.findMany({
+      include: {
+        user: {
+          select: { id: true, name: true, email: true }
+        },
+        items: {
+          include: {
+            product: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(pedidos);
+  } catch (error)
+  {
+    console.error('Erro ao listar pedidos:', error);
+    res.status(500).json({ error: 'Erro ao consultar pedidos.' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+});

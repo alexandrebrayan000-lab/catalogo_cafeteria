@@ -82,11 +82,33 @@ function removerItem(index) {
     renderizarCarrinho();
 }
 
-// Função para concluir o pedido e limpar o carrinho
-function finalizarPedido() {
+// Função para concluir o pedido, salvar no banco Neon e limpar o carrinho
+async function finalizarPedido() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    if (carrinho.length === 0) return;
+
+    try {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+        // Envia os itens para a API registrar no Neon PostgreSQL via Prisma (se tiver os IDs)
+        const itemsComId = carrinho.filter(item => item.id);
+        if (itemsComId.length > 0) {
+            await fetch('/api/pedidos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: usuarioLogado ? usuarioLogado.id : null,
+                    customerName: usuarioLogado ? usuarioLogado.name : 'Cliente da Loja',
+                    items: itemsComId.map(i => ({ productId: i.id, quantity: i.quantidade }))
+                })
+            });
+        }
+    } catch (e) {
+        console.warn('Não foi possível sincronizar o pedido com o servidor online:', e);
+    }
+
     alert('Pedido realizado com sucesso! Obrigado por comprar no Coffee Le Parisien.');
     localStorage.removeItem('carrinho'); // Limpa os dados do navegador
-    window.location.href = 'index.html'; // Redireciona para a home
+    window.location.href = '../index.html'; // Redireciona para a home
 }
 
 // Executa a função assim que o HTML carregar

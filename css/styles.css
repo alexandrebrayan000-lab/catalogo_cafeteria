@@ -35,27 +35,55 @@ header h1 b {
     color: #e6c594;
 }
 
-/* BOTÃO DE NAVEGAÇÃO DO CARRINHO */
-header button {
+/* AÇÕES DO HEADER (USUÁRIO E CARRINHO) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-icone-header, header button {
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 50%;
     cursor: pointer;
     width: 42px;
     height: 42px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-header button:hover {
+.btn-icone-header:hover, header button:hover {
     background-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
 }
 
-header button img {
+.btn-icone-header img, header button img {
     width: 22px;
     height: 22px;
+}
+
+.user-badge {
+    background-color: rgba(20, 15, 12, 0.85);
+    border: 1px solid #c8a278;
+    color: #e6c594;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s;
+}
+
+.user-badge:hover {
+    background-color: rgba(43, 31, 24, 0.95);
 }
 
 /* NAVEGAÇÃO DE CATEGORIAS */
