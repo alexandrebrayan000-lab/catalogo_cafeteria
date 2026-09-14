@@ -3,164 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee Le Parisien</title>
-    <!-- Apontado para css/styles.css -->
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Coffee Le Parisien - A Tradição dos Cafés Parisienses</title>
+    <link rel="stylesheet" href="css/landing.css">
     <link rel="icon" type="image/x-icon" href="img/logo.png">
 </head>
 <body>
-    <header>
-        <img src="img/logo.png" alt="logo">
-        <h1>Bv. <b>Saint-Germain</b></h1>
-        <div class="header-actions">
-            <div id="container-usuario">
-                <a href="pages/login.html" id="btn-login-header" class="btn-icone-header" title="Entrar / Cadastrar">
+
+    <!-- HEADER & NAVEGAÇÃO -->
+    <header class="landing-header">
+        <a href="index.html" class="brand-container">
+            <img src="img/logo.png" alt="Coffee Le Parisien Logo">
+            <h1>Bv. <b>Saint-Germain</b></h1>
+        </a>
+
+        <nav class="landing-nav">
+            <ul>
+                <li><a href="#historia">L'Histoire</a></li>
+                <li><a href="#destaques">Especialidades</a></li>
+                <li><a href="#experiencia">Diferenciais</a></li>
+                <li><a href="#visite">Visite-nos</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right-actions">
+            <a href="pages/cardapio.html" class="btn-cardapio-nav">Cardápio ☕</a>
+            <div id="landing-container-usuario">
+                <a href="pages/login.html" class="btn-icone-header" title="Entrar / Cadastrar">
                     <span>👤</span>
                 </a>
             </div>
-            <button type="button" class="btn-icone-header">
-                <a href="pages/carrinho.html" title="Ver Carrinho">
-                    <img src="img/carrinho.png" alt="Carrinho">
-                </a>
-            </button>
+            <a href="pages/carrinho.html" class="btn-icone-header" title="Ver Carrinho" style="position: relative;">
+                <img src="img/carrinho.png" alt="Carrinho">
+                <span id="carrinho-contador" style="display: none; position: absolute; top: -4px; right: -4px; background: #c8a278; color: #1a1512; border-radius: 50%; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; align-items: center; justify-content: center;">0</span>
+            </a>
         </div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#Paes"><b>Croissants</b> & Cia</a></li>
-            <li><a href="#doces">La <b>Pâtisserie</b></a></li>
-            <li><a href="#salgado">Les <b>Quiches</b></a></li>
-            <li><a href="#cafe">Les <b>Cafés</b></a></li>
-        </ul>
-    </nav>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge">DEPUIS 1895 &bull; PARIS, FRANCE</div>
+            <h2>O Autêntico Sabor dos <span>Bistrôs Parisienses</span></h2>
+            <p class="hero-subtitle">
+                Croissants folhados na manteiga, pâtisseries finas e cafés especiais preparados com a essência e o charme secular do Boulevard Saint-Germain.
+            </p>
+            <div class="hero-buttons">
+                <a href="pages/cardapio.html" class="btn-primary-hero">Explorar Cardápio & Pedir ☕</a>
+                <a href="pages/cadastro.html" class="btn-secondary-hero">Criar Conta ✨</a>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <!-- CROISSANTS & CIA -->
-        <h2>Croissants & Cia</h2>
-        <section id="Paes">
-            <figure class="produtos" data-nome="Croissant" data-preco="7.00" data-img="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg">
-                <img src="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg" alt="Croissant">
-                <figcaption>
-                    <b>Croissant</b>
-                    <p class="preco-unidade">R$ 7,00</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-1">Qtd:</label>
-                        <input type="number" id="qtd-1" class="qtd-produto" value="1" min="1" max="10">
-                    </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-            
-            <figure class="produtos" data-nome="Croissant doce" data-preco="8.00" data-img="https://i.pinimg.com/1200x/34/a0/59/34a059a12664dcae118986a011cd897c.jpg">
-                <img src="https://i.pinimg.com/1200x/34/a0/59/34a059a12664dcae118986a011cd897c.jpg" alt="Croissant doce">
-                <figcaption>
-                    <b>Croissant doce</b>
-                    <p class="preco-unidade">R$ 8,00</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-2">Qtd:</label>
-                        <input type="number" id="qtd-2" class="qtd-produto" value="1" min="1" max="10">
-                    </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-        </section>
+    <!-- SEÇÃO NOSSA HISTÓRIA -->
+    <section id="historia" class="landing-section">
+        <div class="section-header">
+            <span class="section-tag">Nossa Trajetória</span>
+            <h2 class="section-title">L'Histoire do <b>Coffee Le Parisien</b></h2>
+        </div>
 
-        <!-- LA PÂTISSERIE -->
-        <h2>La Pâtisserie</h2>
-        <section id="doces">
-            <figure class="produtos" data-nome="Entremet Coeur Rouge" data-preco="7.99" data-img="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg">
-                <img src="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg" alt="Entremet Coeur Rouge">
-                <figcaption>
-                    <b>Entremet Coeur Rouge</b>
-                    <p class="preco-unidade">R$ 7,99</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-3">Qtd:</label>
-                        <input type="number" id="qtd-3" class="qtd-produto" value="1" min="1" max="10">
-                    </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
+        <div class="historia-container">
+            <div class="historia-texto">
+                <p>
+                    Fundado em 1895 no coração intelectual e artístico de Paris, o <b>Coffee Le Parisien</b> nasceu da paixão pela arte da torra artesanal e pela tradicional confeitaria francesa.
+                </p>
+                <p>
+                    A cada manhã, nossos mestres padeiros e confeiteiros combinam ingredientes nobres para criar croissants incrivelmente leves, quiches assadas no ponto e doces que são verdadeiras obras de arte.
+                </p>
+                <p>
+                    Agora, trazemos essa atmosfera aconchegante e inesquecível diretamente até você, com a comodidade de fazer seus pedidos online em nosso cardápio exclusivo.
+                </p>
+            </div>
+            <div class="historia-imagem">
+                <img src="https://i.pinimg.com/1200x/0a/5d/80/0a5d80662a5042ed194cb68a7d72ce6f.jpg" alt="Interior da Cafeteria Parisiense" onerror="this.onerror=null; this.src='img/logo.png';">
+            </div>
+        </div>
+    </section>
 
-            <figure class="produtos" data-nome="Tartelette aux Fraises" data-preco="12.99" data-img="https://i.pinimg.com/736x/e4/e9/d9/e4e9d9bdba57a6de27e4133f9e655118.jpg">
-                <img src="https://i.pinimg.com/736x/e4/e9/d9/e4e9d9bdba57a6de27e4133f9e655118.jpg" alt="Tartelette aux Fraises">
-                <figcaption>
-                    <b>Tartelette aux Fraises</b>
-                    <p class="preco-unidade">R$ 12,99</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-4">Qtd:</label>
-                        <input type="number" id="qtd-4" class="qtd-produto" value="1" min="1" max="10">
-                    </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-        </section>
+    <!-- SEÇÃO DESTAQUES DO CARDÁPIO -->
+    <section id="destaques" class="landing-section">
+        <div class="section-header">
+            <span class="section-tag">Favoritos da Casa</span>
+            <h2 class="section-title">Nos <b>Spécialités</b></h2>
+        </div>
 
-        <!-- LES QUICHES -->
-        <h2>Les Quiches</h2>
-        <section id="salgado">
-            <figure class="produtos" data-nome="Quiche Lorraine" data-preco="8.99" data-img="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg">
-                <img src="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg" alt="Quiche Lorraine">
-                <figcaption>
-                    <b>Quiche Lorraine</b>
-                    <p class="preco-unidade">R$ 8,99</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-5">Qtd:</label>
-                        <input type="number" id="qtd-5" class="qtd-produto" value="1" min="1" max="10">
+        <div class="destaques-grid">
+            <!-- DESTAQUE 1 -->
+            <div class="card-destaque">
+                <img src="https://lirp.cdn-website.com/33406c6e/dms3rep/multi/opt/historia-do-croissant-640w.jpg" alt="Croissant Francês" onerror="this.onerror=null; this.src='img/logo.png';">
+                <div class="card-destaque-body">
+                    <div>
+                        <h3>Croissant Tradicional</h3>
+                        <p>Clássica massa folhada na manteiga de primeira linha, crocante por fora e macia por dentro.</p>
                     </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-
-            <figure class="produtos" data-nome="Quiche aux Fromages" data-preco="14.50" data-img="https://i.pinimg.com/736x/67/16/9c/67169c7ed151e1d7b7cab9acdb7667f1.jpg">
-                <img src="https://i.pinimg.com/736x/67/16/9c/67169c7ed151e1d7b7cab9acdb7667f1.jpg" alt="Quiche aux Fromages">
-                <figcaption>
-                    <b>Quiche aux Fromages</b>
-                    <p class="preco-unidade">R$ 14,50</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-6">Qtd:</label>
-                        <input type="number" id="qtd-6" class="qtd-produto" value="1" min="1" max="10">
+                    <div class="card-destaque-footer">
+                        <span class="preco-destaque">R$ 7,00</span>
+                        <a href="pages/cardapio.html#Paes" class="btn-card-pedir">Pedir ➔</a>
                     </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-        </section>
+                </div>
+            </div>
 
-        <!-- LES CAFÉS -->
-        <h2>Les Cafés</h2>
-        <section id="cafe">
-            <figure class="produtos" data-nome="Café Origine" data-preco="11.98" data-img="img/coffee1.jfif">
-                <img src="img/coffee1.jfif" alt="Café Origine">
-                <figcaption>
-                    <b>Café Origine</b>
-                    <p class="preco-unidade">R$ 11,98</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-7">Qtd:</label>
-                        <input type="number" id="qtd-7" class="qtd-produto" value="1" min="1" max="10">
+            <!-- DESTAQUE 2 -->
+            <div class="card-destaque">
+                <img src="https://i.pinimg.com/1200x/70/cb/1a/70cb1aad524e93679963391a007d6de7.jpg" alt="Entremet Coeur Rouge" onerror="this.onerror=null; this.src='img/logo.png';">
+                <div class="card-destaque-body">
+                    <div>
+                        <h3>Entremet Coeur Rouge</h3>
+                        <p>Sobremesa fina com mousse aveludado e geleia artesanal de frutas vermelhas silvestres.</p>
                     </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-
-            <figure class="produtos" data-nome="Latte Macchiato" data-preco="13.99" data-img="https://i.pinimg.com/736x/c9/8d/04/c98d046bf1085bc59f77893bf9779244.jpg">
-                <img src="https://i.pinimg.com/736x/c9/8d/04/c98d046bf1085bc59f77893bf9779244.jpg" alt="Latte Macchiato">
-                <figcaption>
-                    <b>Latte Macchiato</b>
-                    <p class="preco-unidade">R$ 13,99</p>
-                    <div class="controle-qtd">
-                        <label for="qtd-8">Qtd:</label>
-                        <input type="number" id="qtd-8" class="qtd-produto" value="1" min="1" max="10">
+                    <div class="card-destaque-footer">
+                        <span class="preco-destaque">R$ 7,99</span>
+                        <a href="pages/cardapio.html#doces" class="btn-card-pedir">Pedir ➔</a>
                     </div>
-                    <button type="button" class="btn-adicionar link-produto">Adicionar 🛒</button>
-                </figcaption>
-            </figure>
-        </section>
-    </main>
+                </div>
+            </div>
 
-    <footer>
-        <p>&copy; 1895 Coffee Le Parisien. All rights reserved.</p>
+            <!-- DESTAQUE 3 -->
+            <div class="card-destaque">
+                <img src="https://i.pinimg.com/1200x/24/2b/14/242b14c63b289cd60141711e5faa3e26.jpg" alt="Quiche Lorraine" onerror="this.onerror=null; this.src='img/logo.png';">
+                <div class="card-destaque-body">
+                    <div>
+                        <h3>Quiche Lorraine</h3>
+                        <p>Receita tradicional francesa com bacon crocante, queijo nobre e recheio cremoso e suave.</p>
+                    </div>
+                    <div class="card-destaque-footer">
+                        <span class="preco-destaque">R$ 8,99</span>
+                        <a href="pages/cardapio.html#salgado" class="btn-card-pedir">Pedir ➔</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DESTAQUE 4 -->
+            <div class="card-destaque">
+                <img src="img/coffee1.jfif" alt="Café Origine" onerror="this.onerror=null; this.src='img/logo.png';">
+                <div class="card-destaque-body">
+                    <div>
+                        <h3>Café Origine</h3>
+                        <p>Espresso encorpado de grãos 100% arábica com notas aromáticas amendoadas e crema aveludada.</p>
+                    </div>
+                    <div class="card-destaque-footer">
+                        <span class="preco-destaque">R$ 11,98</span>
+                        <a href="pages/cardapio.html#cafe" class="btn-card-pedir">Pedir ➔</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ver-cardapio-container">
+            <a href="pages/cardapio.html" class="btn-primary-hero">Ver Todo o Cardápio & Fazer Pedido ➔</a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DIFERENCIAIS -->
+    <section id="experiencia" class="landing-section">
+        <div class="section-header">
+            <span class="section-tag">Qualidade Sem Igual</span>
+            <h2 class="section-title">L'Expérience <b>Parisienne</b></h2>
+        </div>
+
+        <div class="experiencia-grid">
+            <div class="card-experiencia">
+                <span class="icone-experiencia">🥐</span>
+                <h3>Produção Artesanal</h3>
+                <p>Nossas massas folhadas e receitas são preparadas diariamente com manteiga de alta qualidade e ingredientes selecionados.</p>
+            </div>
+
+            <div class="card-experiencia">
+                <span class="icone-experiencia">☕</span>
+                <h3>Grãos 100% Arábica</h3>
+                <p>Cafés com perfil sensorial marcante, torrados no ponto perfeito para extrair o melhor aroma e sabor.</p>
+            </div>
+
+            <div class="card-experiencia">
+                <span class="icone-experiencia">🇫🇷</span>
+                <h3>Tradição Parisiense</h3>
+                <p>Mais de um século de história preservando as técnicas dos maîtres boulangers e pâtissiers franceses.</p>
+            </div>
+
+            <div class="card-experiencia">
+                <span class="icone-experiencia">🛍️</span>
+                <h3>Pedidos Online Rápidos</h3>
+                <p>Adicione suas delícias ao carrinho e faça seu pedido de forma prática e segura diretamente pelo site.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO VISITE-NOS -->
+    <section id="visite" class="landing-section">
+        <div class="visite-container">
+            <div class="visite-info">
+                <span class="section-tag">Atendimento</span>
+                <h2 class="section-title" style="margin-bottom: 20px;">Visitez <b>Notre Café</b></h2>
+                
+                <div class="visite-item">
+                    <h4>📍 Localização</h4>
+                    <p>Boulevard Saint-Germain, Paris &bull; Entrega em toda a região</p>
+                </div>
+
+                <div class="visite-item">
+                    <h4>⏰ Horário de Funcionamento</h4>
+                    <p>Segunda a Domingo: das <b>07:00 às 22:00</b></p>
+                </div>
+
+                <div class="visite-item">
+                    <h4>📞 Contato & Encomendas</h4>
+                    <p>contact@coffeeleparisien.com | (11) 98765-4321</p>
+                </div>
+            </div>
+
+            <div class="visite-cta">
+                <h3>Deseja uma pausa com café?</h3>
+                <p>Confira nossa seleção completa de delícias prontas para você pedir agora mesmo.</p>
+                <a href="pages/cardapio.html" class="btn-primary-hero">Ir para o Cardápio ☕</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Coffee <b>Le Parisien</b></h3>
+                <p>Tradição, sabor e elegância no Boulevard Saint-Germain desde 1895.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="pages/cardapio.html">Cardápio Completo</a></li>
+                    <li><a href="pages/carrinho.html">Meu Carrinho</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Sua Conta</h4>
+                <ul>
+                    <li><a href="pages/login.html">Fazer Login</a></li>
+                    <li><a href="pages/cadastro.html">Criar Conta</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 1895 Coffee Le Parisien. All rights reserved.</p>
+        </div>
     </footer>
 
-    <script src="js/script-index.js"></script>
+    <script src="js/script-landing.js"></script>
 </body>
 </html>

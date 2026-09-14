@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('form-login');
     const formCadastro = document.getElementById('form-cadastro');
 
+    // Preserva o parâmetro de redirect nos links entre login e cadastro
+    preservarParametrosDeRedirect();
+
     if (formLogin) {
         configurarFormLogin(formLogin);
     }
@@ -10,6 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
         configurarFormCadastro(formCadastro);
     }
 });
+
+function obterDestinoAposAutenticacao() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+
+    if (redirect === 'carrinho') {
+        return 'carrinho.html';
+    }
+    return '../index.html';
+}
+
+function preservarParametrosDeRedirect() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+
+    if (redirect) {
+        const linksAlternancia = document.querySelectorAll('a[href="cadastro.html"], a[href="login.html"]');
+        linksAlternancia.forEach(link => {
+            const hrefAtual = link.getAttribute('href');
+            if (hrefAtual && !hrefAtual.includes('?')) {
+                link.setAttribute('href', `${hrefAtual}?redirect=${encodeURIComponent(redirect)}`);
+            }
+        });
+    }
+}
 
 function exibirMensagem(elementoId, texto, tipo = 'erro') {
     const container = document.getElementById(elementoId);
@@ -65,10 +93,11 @@ function configurarFormLogin(form) {
             // Salva dados do usuário na sessão local
             localStorage.setItem('usuarioLogado', JSON.stringify(data.user));
 
+            const destino = obterDestinoAposAutenticacao();
             exibirMensagem('feedback-login', `Bem-vindo(a), ${data.user.name}! Redirecionando...`, 'sucesso');
 
             setTimeout(() => {
-                window.location.href = '../index.html';
+                window.location.href = destino;
             }, 1000);
 
         } catch (error) {
@@ -130,10 +159,11 @@ function configurarFormCadastro(form) {
             // Salva sessão local
             localStorage.setItem('usuarioLogado', JSON.stringify(data.user));
 
+            const destino = obterDestinoAposAutenticacao();
             exibirMensagem('feedback-cadastro', 'Conta criada com sucesso! Redirecionando...', 'sucesso');
 
             setTimeout(() => {
-                window.location.href = '../index.html';
+                window.location.href = destino;
             }, 1200);
 
         } catch (error) {

@@ -234,11 +234,50 @@ main {
     margin-top: 15px;
     width: 100%;
     height: auto;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.1s ease;
 }
 
 .btn-finalizar:hover {
     background-color: #388e3c;
+}
+
+.btn-finalizar:active {
+    transform: scale(0.99);
+}
+
+/* BOTÃO DE PEDIR LOGIN */
+.btn-pedir-login {
+    background-color: #c8a278;
+    color: #1a1512;
+}
+
+.btn-pedir-login:hover {
+    background-color: #e6c594;
+    color: #1a1512;
+}
+
+/* AVISO DE LOGIN NO CARRINHO */
+.aviso-login-carrinho {
+    background-color: rgba(60, 30, 20, 0.85);
+    border: 1px solid #c8a278;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 12px 0 6px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #f2ebd9;
+}
+
+/* BADGE DE USUÁRIO LOGADO NO CARRINHO */
+.usuario-logado-badge {
+    background-color: rgba(30, 45, 30, 0.85);
+    border: 1px solid #5a9e5a;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #c3e6c3;
 }
 
 /* NOVO: BOTÃO SECUNDÁRIO DE VOLTAR AO INÍCIO */

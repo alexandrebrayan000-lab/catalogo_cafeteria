@@ -1,3 +1,19 @@
+// Função para resolver o caminho da imagem de forma compatível com páginas em subpastas (pages/)
+function resolverUrlImagem(imgUrl) {
+    if (!imgUrl) return '../img/logo.png';
+
+    // Se for URL completa externa ou base64
+    if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://') || imgUrl.startsWith('data:')) {
+        return imgUrl;
+    }
+
+    // Remove barras e caminhos relativos iniciais
+    const caminhoLimpo = imgUrl.replace(/^(\.\.\/|\/)+/, '');
+
+    // Retorna caminho relativo a partir de pages/
+    return `../${caminhoLimpo}`;
+}
+
 // Função principal para carregar e renderizar os itens
 function renderizarCarrinho() {
     const listaContainer = document.getElementById('lista-carrinho');
@@ -25,9 +41,11 @@ function renderizarCarrinho() {
         const figureItem = document.createElement('figure');
         figureItem.classList.add('produtos-carrinho');
 
+        const imagemSrc = resolverUrlImagem(produto.img);
+
         figureItem.innerHTML = `
             <figcaption>
-                <img src="${produto.img}" alt="${produto.nome}" style="max-width: 150px; display: block; margin-bottom: 10px;">
+                <img src="${imagemSrc}" alt="${produto.nome}" onerror="this.onerror=null; this.src='../img/logo.png';" style="max-width: 150px; height: 100px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 10px;">
                 <b>${produto.nome}</b><br>
                 Preço un: R$ ${produto.preco.toFixed(2).replace('.', ',')}<br>
                 
@@ -48,12 +66,41 @@ function renderizarCarrinho() {
         listaContainer.appendChild(figureItem);
     });
 
-    // 4. Exibe o Total e o Botão de Finalizar Pedido
+    // 4. Verifica status de login do usuário
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+
+    let htmlUsuarioStatus = '';
+    let htmlBotaoAcao = '';
+
+    if (usuarioLogado && usuarioLogado.name) {
+        htmlUsuarioStatus = `
+            <div class="usuario-logado-badge">
+                <span>👤 Comprando como: <b>${usuarioLogado.name}</b></span>
+            </div>
+        `;
+        htmlBotaoAcao = `
+            <button type="button" class="btn-finalizar" onclick="finalizarPedido()">Finalizar Pedido ☕</button>
+        `;
+    } else {
+        htmlUsuarioStatus = `
+            <div class="aviso-login-carrinho">
+                <span>🔒 <b>Atenção:</b> Você precisa estar conectado à sua conta para finalizar o pedido.</span>
+            </div>
+        `;
+        htmlBotaoAcao = `
+            <button type="button" class="btn-finalizar btn-pedir-login" onclick="finalizarPedido()">
+                🔑 Fazer Login para Finalizar Pedido
+            </button>
+        `;
+    }
+
+    // 5. Exibe o Total e a Ação correspondente
     totalContainer.innerHTML = `
         <p style="font-size: 1.2rem; margin-bottom: 10px;">
             Total do Pedido: <b>R$ ${totalGeral.toFixed(2).replace('.', ',')}</b>
         </p>
-        <button type="button" class="btn-finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
+        ${htmlUsuarioStatus}
+        ${htmlBotaoAcao}
     `;
 }
 
@@ -87,28 +134,52 @@ async function finalizarPedido() {
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
     if (carrinho.length === 0) return;
 
-    try {
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
-        // Envia os itens para a API registrar no Neon PostgreSQL via Prisma (se tiver os IDs)
-        const itemsComId = carrinho.filter(item => item.id);
-        if (itemsComId.length > 0) {
-            await fetch('/api/pedidos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: usuarioLogado ? usuarioLogado.id : null,
-                    customerName: usuarioLogado ? usuarioLogado.name : 'Cliente da Loja',
-                    items: itemsComId.map(i => ({ productId: i.id, quantity: i.quantidade }))
-                })
-            });
-        }
-    } catch (e) {
-        console.warn('Não foi possível sincronizar o pedido com o servidor online:', e);
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+
+    // TRAVA DE LOGIN: Redireciona para login se não estiver autenticado
+    if (!usuarioLogado || !usuarioLogado.id) {
+        alert('Você precisa estar conectado à sua conta para concluir seu pedido no Coffee Le Parisien. Redirecionando para login...');
+        window.location.href = 'login.html?redirect=carrinho';
+        return;
     }
 
-    alert('Pedido realizado com sucesso! Obrigado por comprar no Coffee Le Parisien.');
-    localStorage.removeItem('carrinho'); // Limpa os dados do navegador
-    window.location.href = '../index.html'; // Redireciona para a home
+    try {
+        const btnFinalizar = document.querySelector('.btn-finalizar');
+        if (btnFinalizar) {
+            btnFinalizar.disabled = true;
+            btnFinalizar.textContent = 'Enviando pedido...';
+        }
+
+        // Envia os itens para a API registrar no Neon PostgreSQL via Prisma
+        const itemsFormatados = carrinho.map(item => ({
+            productId: item.id || 1,
+            quantity: item.quantidade || 1
+        }));
+
+        const response = await fetch('/api/pedidos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: usuarioLogado.id,
+                customerName: usuarioLogado.name,
+                items: itemsFormatados
+            })
+        });
+
+        if (!response.ok) {
+            const erroData = await response.json();
+            throw new Error(erroData.error || 'Erro ao registrar pedido no servidor.');
+        }
+
+        alert(`Obrigado, ${usuarioLogado.name}! Seu pedido foi registrado com sucesso no Coffee Le Parisien.`);
+        localStorage.removeItem('carrinho'); // Limpa o carrinho
+        window.location.href = '../index.html'; // Redireciona para a página inicial
+
+    } catch (e) {
+        console.error('Erro ao finalizar pedido:', e);
+        alert('Ocorreu um erro ao processar seu pedido. Por favor, tente novamente.');
+        renderizarCarrinho();
+    }
 }
 
 // Executa a função assim que o HTML carregar

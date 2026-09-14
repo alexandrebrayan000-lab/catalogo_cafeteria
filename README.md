@@ -17,18 +17,25 @@ Aplicação web do catálogo da cafeteria **Coffee Le Parisien**, agora integrad
 ```text
 catalogo_cafeteria/
 │
-├── index.html                  # Página principal do catálogo
+├── index.html                  # Landing Page imersiva do Coffee Le Parisien
 │
 ├── css/                        # Estilos CSS
-│   ├── styles.css
-│   └── carrinho.css
+│   ├── landing.css             # Estilos da Landing Page
+│   ├── styles.css              # Estilos do Cardápio
+│   ├── carrinho.css            # Estilos do Carrinho
+│   └── auth.css                # Estilos de Login e Cadastro
 │
 ├── js/                         # Lógica JavaScript do frontend
-│   ├── script-index.js
-│   └── script-carrinho.js
+│   ├── script-landing.js       # Script da Landing Page
+│   ├── script-cardapio.js      # Script do Cardápio
+│   ├── script-carrinho.js      # Script do Carrinho (com trava de login)
+│   └── script-auth.js          # Script de Login e Cadastro
 │
 ├── pages/                      # Páginas secundárias
-│   └── carrinho.html
+│   ├── cardapio.html           # Catálogo completo de produtos
+│   ├── carrinho.html           # Carrinho de compras
+│   ├── login.html              # Página de login
+│   └── cadastro.html           # Página de cadastro
 │
 ├── img/                        # Imagens e ícones
 │   ├── logo.png
