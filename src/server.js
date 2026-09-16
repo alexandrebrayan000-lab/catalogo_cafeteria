@@ -22,15 +22,15 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos do frontend a partir da raiz
+// Servir arquivos estáticos do frontend a partir da raiz (em desenvolvimento local)
 app.use(express.static(rootDir));
 
 // ==========================================================
-// ROUTER DE API (Compatível com /api/* e chamadas diretas da Vercel)
+// ROUTER DE API (/api/*)
 // ==========================================================
 const apiRouter = express.Router();
 
-// Rota de Health Check / Status
+// Rota de Health Check / Status (/api/status)
 apiRouter.get('/status', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
@@ -49,27 +49,11 @@ apiRouter.get('/status', async (req, res) => {
   }
 });
 
-// Resumo da API
-apiRouter.get('/', (req, res) => {
-  res.json({
-    message: 'API Coffee Le Parisien online ☕',
-    status: 'online',
-    endpoints: [
-      '/api/status',
-      '/api/categorias',
-      '/api/produtos',
-      '/api/pedidos',
-      '/api/auth/login',
-      '/api/auth/register'
-    ]
-  });
-});
-
 // ==========================================================
 // ROTAS DE AUTENTICAÇÃO (CADASTRO & LOGIN)
 // ==========================================================
 
-// POST /auth/register - Cadastro de novo usuário
+// POST /api/auth/register - Cadastro de novo usuário
 apiRouter.post('/auth/register', async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -84,7 +68,6 @@ apiRouter.post('/auth/register', async (req, res) => {
   const cleanEmail = email.trim().toLowerCase();
 
   try {
-    // Verifica se o e-mail já está cadastrado
     const existingUser = await prisma.user.findUnique({
       where: { email: cleanEmail }
     });
@@ -93,10 +76,8 @@ apiRouter.post('/auth/register', async (req, res) => {
       return res.status(409).json({ error: 'Este e-mail já está cadastrado. Tente fazer login.' });
     }
 
-    // Hash seguro da senha
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Cria o usuário no banco de dados Neon
     const newUser = await prisma.user.create({
       data: {
         name: name.trim(),
@@ -123,7 +104,7 @@ apiRouter.post('/auth/register', async (req, res) => {
   }
 });
 
-// POST /auth/login - Login de usuário
+// POST /api/auth/login - Login de usuário
 apiRouter.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -134,7 +115,6 @@ apiRouter.post('/auth/login', async (req, res) => {
   const cleanEmail = email.trim().toLowerCase();
 
   try {
-    // Busca usuário pelo e-mail
     const user = await prisma.user.findUnique({
       where: { email: cleanEmail }
     });
@@ -143,7 +123,6 @@ apiRouter.post('/auth/login', async (req, res) => {
       return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
     }
 
-    // Compara a senha fornecida com o hash salvo no banco
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
@@ -168,7 +147,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 // ROTAS DE CARDÁPIO & PRODUTOS
 // ==========================================================
 
-// GET /categorias - Lista todas as categorias com seus produtos
+// GET /api/categorias - Lista todas as categorias com seus produtos
 apiRouter.get('/categorias', async (req, res) => {
   try {
     const categorias = await prisma.category.findMany({
@@ -186,7 +165,7 @@ apiRouter.get('/categorias', async (req, res) => {
   }
 });
 
-// GET /produtos - Lista produtos (com suporte a filtro por categoria)
+// GET /api/produtos - Lista produtos
 apiRouter.get('/produtos', async (req, res) => {
   const { categoria } = req.query;
 
@@ -206,7 +185,7 @@ apiRouter.get('/produtos', async (req, res) => {
   }
 });
 
-// POST /produtos - Cadastrar novo produto
+// POST /api/produtos - Cadastrar novo produto
 apiRouter.post('/produtos', async (req, res) => {
   const { name, price, description, imageUrl, categoryId } = req.body;
 
@@ -235,7 +214,7 @@ apiRouter.post('/produtos', async (req, res) => {
 // ROTAS DE PEDIDOS
 // ==========================================================
 
-// POST /pedidos - Registrar um pedido do carrinho
+// POST /api/pedidos - Registrar um pedido do carrinho
 apiRouter.post('/pedidos', async (req, res) => {
   const { customerName, customerPhone, userId, items } = req.body;
 
@@ -292,7 +271,7 @@ apiRouter.post('/pedidos', async (req, res) => {
   }
 });
 
-// GET /pedidos - Listar histórico de pedidos
+// GET /api/pedidos - Listar histórico de pedidos
 apiRouter.get('/pedidos', async (req, res) => {
   try {
     const pedidos = await prisma.order.findMany({
@@ -315,9 +294,13 @@ apiRouter.get('/pedidos', async (req, res) => {
   }
 });
 
-// Monta o router tanto em '/api' quanto na raiz '/' para compatibilidade total com Vercel
+// Monta o router estritamente no prefixo '/api'
 app.use('/api', apiRouter);
-app.use('/', apiRouter);
+
+// Rota raiz para desenvolvimento local (entrega a Landing Page index.html)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(rootDir, 'index.html'));
+});
 
 // Inicia o servidor local se não estiver rodando na infraestrutura Serverless da Vercel
 if (!process.env.VERCEL) {
