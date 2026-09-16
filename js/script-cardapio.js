@@ -32,7 +32,7 @@ function configurarHeaderUsuario() {
         });
     } else {
         container.innerHTML = `
-            <a href="/pages/login.html" id="btn-login-header" class="btn-icone-header" title="Entrar / Cadastrar">
+            <a href="/pages/login" id="btn-login-header" class="btn-icone-header" title="Entrar / Cadastrar">
                 <span>👤</span>
             </a>
         `;
@@ -78,12 +78,12 @@ async function carregarCardapioDoBanco() {
                 // Normaliza imagem local caso seja relativo
                 let imgFinal = prod.imageUrl;
                 if (!imgFinal.startsWith('http://') && !imgFinal.startsWith('https://') && !imgFinal.startsWith('data:')) {
-                    const limpo = imgFinal.replace(/^(\.\.\/|\/)+/, '');
-                    imgFinal = `../${limpo}`;
+                    const limpo = imgFinal.replace(/^(\.\.\/|\/)+/, '').replace(/^img\//, '');
+                    imgFinal = `/img/${limpo}`;
                 }
 
                 figure.innerHTML = `
-                    <img src="${imgFinal}" alt="${prod.name}" onerror="this.onerror=null; this.src='../img/logo.png';">
+                    <img src="${imgFinal}" alt="${prod.name}" onerror="this.onerror=null; this.src='/img/logo.png';">
                     <figcaption>
                         <b>${prod.name}</b>
                         <p class="preco-unidade">${precoFormatado}</p>
@@ -137,6 +137,6 @@ function configurarBotoesAdicionar() {
         localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
         // Redireciona para o carrinho
-        window.location.href = '/pages/carrinho.html';
+        window.location.href = '/pages/carrinho';
     });
 }

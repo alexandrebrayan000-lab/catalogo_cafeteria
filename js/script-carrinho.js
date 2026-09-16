@@ -1,6 +1,6 @@
 // Função para resolver o caminho da imagem de forma compatível com páginas em subpastas (pages/)
 function resolverUrlImagem(imgUrl) {
-    if (!imgUrl) return '../img/logo.png';
+    if (!imgUrl) return '/img/logo.png';
 
     // Se for URL completa externa ou base64
     if (imgUrl.startsWith('http://') || imgUrl.startsWith('https://') || imgUrl.startsWith('data:')) {
@@ -10,8 +10,8 @@ function resolverUrlImagem(imgUrl) {
     // Remove barras e caminhos relativos iniciais
     const caminhoLimpo = imgUrl.replace(/^(\.\.\/|\/)+/, '');
 
-    // Retorna caminho relativo a partir de pages/
-    return `../${caminhoLimpo}`;
+    // Retorna caminho absoluto
+    return `/img/${caminhoLimpo.replace(/^\/img\//, '').replace(/^img\//, '')}`;
 }
 
 // Função principal para carregar e renderizar os itens
@@ -45,7 +45,7 @@ function renderizarCarrinho() {
 
         figureItem.innerHTML = `
             <figcaption>
-                <img src="${imagemSrc}" alt="${produto.nome}" onerror="this.onerror=null; this.src='../img/logo.png';" style="max-width: 150px; height: 100px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 10px;">
+                <img src="${imagemSrc}" alt="${produto.nome}" onerror="this.onerror=null; this.src='/img/logo.png';" style="max-width: 150px; height: 100px; object-fit: cover; border-radius: 8px; display: block; margin-bottom: 10px;">
                 <b>${produto.nome}</b><br>
                 Preço un: R$ ${produto.preco.toFixed(2).replace('.', ',')}<br>
                 
@@ -139,7 +139,7 @@ async function finalizarPedido() {
     // TRAVA DE LOGIN: Redireciona para login se não estiver autenticado
     if (!usuarioLogado || !usuarioLogado.id) {
         alert('Você precisa estar conectado à sua conta para concluir seu pedido no Coffee Le Parisien. Redirecionando para login...');
-        window.location.href = '/pages/login.html?redirect=carrinho';
+        window.location.href = '/pages/login?redirect=carrinho';
         return;
     }
 
@@ -173,7 +173,7 @@ async function finalizarPedido() {
 
         alert(`Obrigado, ${usuarioLogado.name}! Seu pedido foi registrado com sucesso no Coffee Le Parisien.`);
         localStorage.removeItem('carrinho'); // Limpa o carrinho
-        window.location.href = '/index.html'; // Redireciona para a página inicial
+        window.location.href = '/'; // Redireciona para a página inicial
 
     } catch (e) {
         console.error('Erro ao finalizar pedido:', e);
