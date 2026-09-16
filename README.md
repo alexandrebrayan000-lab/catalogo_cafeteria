@@ -131,3 +131,18 @@ Para visualizar e gerenciar os dados das tabelas diretamente em uma interface vi
 npm run prisma:studio
 ```
 Isso abrirá o Prisma Studio em `http://localhost:5555`.
+
+---
+
+## ⚡ Como Fazer Deploy na Vercel
+
+O projeto já está 100% configurado com suporte a **Serverless Functions** da Vercel (`vercel.json` e `api/index.js`).
+
+### Passo a Passo no Dashboard da Vercel:
+1. Conecte o repositório do GitHub na [Vercel](https://vercel.com).
+2. Durante o processo de importação do projeto ou em **Project Settings -> Environment Variables**, adicione a variável de ambiente do seu banco Neon:
+   - **Key (Nome)**: `DATABASE_URL`
+   - **Value (Valor)**: `postgresql://neondb_owner:SENHA@ep-exemplo-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require&connect_timeout=15`
+3. Clique em **Deploy**.
+4. O script `npm run build` executará automaticamente o `prisma generate` na infraestrutura da Vercel e todas as rotas `/api/...` e páginas funcionarão imediatamente.
+

@@ -10,8 +10,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, '..');
 
-// Carrega as variáveis de ambiente a partir da raiz do projeto
-dotenv.config({ path: path.join(rootDir, '.env') });
+// Carrega as variáveis de ambiente a partir da raiz do projeto se não estiver na Vercel
+if (!process.env.VERCEL) {
+  dotenv.config({ path: path.join(rootDir, '.env') });
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,7 +22,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos do frontend (index.html, css/, js/, img/, pages/) a partir da raiz
+// Servir arquivos estáticos do frontend a partir da raiz (quando rodando localmente)
 app.use(express.static(rootDir));
 
 // Rota de Health Check / Status
@@ -33,6 +35,7 @@ app.get('/api/status', async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Erro na rota /api/status:', error);
     res.status(500).json({
       status: 'offline',
       database: 'Erro de conexão com o banco de dados',
@@ -285,13 +288,17 @@ app.get('/api/pedidos', async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
     res.json(pedidos);
-  } catch (error)
-  {
+  } catch (error) {
     console.error('Erro ao listar pedidos:', error);
     res.status(500).json({ error: 'Erro ao consultar pedidos.' });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-});
+// Inicia o servidor local se não estiver rodando na infraestrutura Serverless da Vercel
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+  });
+}
+
+export default app;
