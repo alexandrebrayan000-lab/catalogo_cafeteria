@@ -139,7 +139,7 @@ async function finalizarPedido() {
     // TRAVA DE LOGIN: Redireciona para login se não estiver autenticado
     if (!usuarioLogado || !usuarioLogado.id) {
         alert('Você precisa estar conectado à sua conta para concluir seu pedido no Coffee Le Parisien. Redirecionando para login...');
-        window.location.href = 'login.html?redirect=carrinho';
+        window.location.href = '/pages/login.html?redirect=carrinho';
         return;
     }
 
@@ -173,7 +173,7 @@ async function finalizarPedido() {
 
         alert(`Obrigado, ${usuarioLogado.name}! Seu pedido foi registrado com sucesso no Coffee Le Parisien.`);
         localStorage.removeItem('carrinho'); // Limpa o carrinho
-        window.location.href = '../index.html'; // Redireciona para a página inicial
+        window.location.href = '/index.html'; // Redireciona para a página inicial
 
     } catch (e) {
         console.error('Erro ao finalizar pedido:', e);

@@ -19,9 +19,9 @@ function obterDestinoAposAutenticacao() {
     const redirect = urlParams.get('redirect');
 
     if (redirect === 'carrinho') {
-        return 'carrinho.html';
+        return '/pages/carrinho.html';
     }
-    return '../index.html';
+    return '/index.html';
 }
 
 function preservarParametrosDeRedirect() {
@@ -29,7 +29,7 @@ function preservarParametrosDeRedirect() {
     const redirect = urlParams.get('redirect');
 
     if (redirect) {
-        const linksAlternancia = document.querySelectorAll('a[href="cadastro.html"], a[href="login.html"]');
+        const linksAlternancia = document.querySelectorAll('a[href*="cadastro.html"], a[href*="login.html"]');
         linksAlternancia.forEach(link => {
             const hrefAtual = link.getAttribute('href');
             if (hrefAtual && !hrefAtual.includes('?')) {

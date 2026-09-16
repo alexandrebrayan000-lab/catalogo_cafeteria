@@ -1,9 +1,26 @@
 {
   "version": 2,
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/cardapio",
+      "destination": "/pages/cardapio.html"
+    },
+    {
+      "source": "/carrinho",
+      "destination": "/pages/carrinho.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/pages/login.html"
+    },
+    {
+      "source": "/cadastro",
+      "destination": "/pages/cadastro.html"
     }
   ]
 }

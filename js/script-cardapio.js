@@ -32,7 +32,7 @@ function configurarHeaderUsuario() {
         });
     } else {
         container.innerHTML = `
-            <a href="login.html" id="btn-login-header" class="btn-icone-header" title="Entrar / Cadastrar">
+            <a href="/pages/login.html" id="btn-login-header" class="btn-icone-header" title="Entrar / Cadastrar">
                 <span>👤</span>
             </a>
         `;
@@ -137,6 +137,6 @@ function configurarBotoesAdicionar() {
         localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
         // Redireciona para o carrinho
-        window.location.href = 'carrinho.html';
+        window.location.href = '/pages/carrinho.html';
     });
 }

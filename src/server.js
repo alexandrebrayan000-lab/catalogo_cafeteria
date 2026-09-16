@@ -18,11 +18,15 @@ if (!process.env.VERCEL) {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
+// Middlewares globais
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos do frontend a partir da raiz (em desenvolvimento local)
+// Servir diretórios estáticos explicitamente com headers adequados
+app.use('/css', express.static(path.join(rootDir, 'css')));
+app.use('/js', express.static(path.join(rootDir, 'js')));
+app.use('/img', express.static(path.join(rootDir, 'img')));
+app.use('/pages', express.static(path.join(rootDir, 'pages')));
 app.use(express.static(rootDir));
 
 // ==========================================================
@@ -294,12 +298,30 @@ apiRouter.get('/pedidos', async (req, res) => {
   }
 });
 
-// Monta o router estritamente no prefixo '/api'
+// Monta o router de API
 app.use('/api', apiRouter);
 
-// Rota raiz para desenvolvimento local (entrega a Landing Page index.html)
-app.get('/', (req, res) => {
+// ==========================================================
+// ROTAS DE PÁGINAS VISUAIS (Garante funcionamento de links diretos)
+// ==========================================================
+app.get(['/', '/index.html'], (req, res) => {
   res.sendFile(path.join(rootDir, 'index.html'));
+});
+
+app.get(['/cardapio', '/pages/cardapio.html'], (req, res) => {
+  res.sendFile(path.join(rootDir, 'pages', 'cardapio.html'));
+});
+
+app.get(['/carrinho', '/pages/carrinho.html'], (req, res) => {
+  res.sendFile(path.join(rootDir, 'pages', 'carrinho.html'));
+});
+
+app.get(['/login', '/pages/login.html'], (req, res) => {
+  res.sendFile(path.join(rootDir, 'pages', 'login.html'));
+});
+
+app.get(['/cadastro', '/pages/cadastro.html'], (req, res) => {
+  res.sendFile(path.join(rootDir, 'pages', 'cadastro.html'));
 });
 
 // Inicia o servidor local se não estiver rodando na infraestrutura Serverless da Vercel
